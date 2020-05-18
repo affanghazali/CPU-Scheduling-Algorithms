@@ -76,62 +76,6 @@ void preemptivePriorityScheduling(){												//Preemptive Priority Scheuling 
     
 }
 
-void preemptiveShortestJobScheduling(){											     //Preemptive Shortest Job Scheduling Function
-	
-	int arrivalTime[10], burstTime[10], temp[10], w[10], t[10];
-    int i, smallest, count = 0, time, limit;
-    double waitTime = 0, turnaroundTime = 0, end;
-    float averageWaitingTime, averageTurnaroundTime;
-    
-    cout<<"\nEnter the Total Number of Processes: ";
-    cin>>limit; 
-    //cout<<"\nEnter Details of "<<limit<<" Processes\n";
-    
-    for(i = 0; i < limit; i++){
-    	arrivalTime[i]= rand() %8 +0;
-            
-		burstTime[i]= rand() %10 +1;
-			
-		temp[i] = burstTime[i];
-    }
-    
-    burstTime[9] = 9999;  
-    w[0] = 0;
-    t[0] = 0;
-    
- 	for(time = 0; count != limit; time++){
-        smallest = 9;
-        for(i = 0; i < limit; i++){
-            if(arrivalTime[i] <= time && burstTime[i] < burstTime[smallest] && burstTime[i] > 0){
-                smallest = i;
-            }
-        }
-        burstTime[smallest]--;
-        if(burstTime[smallest] == 0){
-            count++;
-            end = time + 1;
-            waitTime = waitTime + end - arrivalTime[smallest] - temp[smallest];
-            turnaroundTime = turnaroundTime + end - arrivalTime[smallest];
-        }
-        w[i] = end - arrivalTime[smallest]- temp[smallest];
-        t[i] = (end - arrivalTime[smallest]);
-    }
-    
-    cout<<"\t\nBurst Time\t Arrival Time\t Turnaround Time\t Waiting Time\t\n";
-    for(i = 0; i < limit; i++){
-        //turnaroundTime[i] = burstTime[i] + waitingTime[i];
-        //sum = sum + turnaroundTime[i];
-        printf("\t\n%d\t\t %d\t\t %d\t\t\t %d", temp[i], arrivalTime[i], t[i], w[i]);
-    }
-    
-    averageWaitingTime = waitTime / limit; 
-    averageTurnaroundTime = turnaroundTime / limit;
-    cout<<"\nAverage Waiting Time: "<<averageWaitingTime;
-    cout<<"\nAverage Turnaround Time: "<<averageTurnaroundTime<<"\n\n";
-    cout<<"x----------------------------x-------------------------------x------------------------------x------------------------x";
-    
-}
-
 void roundRobinScheduling(){														//Round Robin Scheduling Function
 	
 	int i, limit, total = 0, x, counter = 0, timeQuantum; 
@@ -251,11 +195,8 @@ void shortestRemainingTimeScheduling(){												//Shortest Remaining Time Sch
 	
 }
 
-/*void rateMonotonicScheduling(){
-	
-}*/ 
-
 void PreemptiveCPUScheduling(){														//Preemptive CPU Scheduling Menu-Driven Function
+
 	
 	HANDLE hConsole;
  	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -268,15 +209,11 @@ void PreemptiveCPUScheduling(){														//Preemptive CPU Scheduling Menu-Dr
 			puts("\t|-------------------------------------------------------------------|");
 			puts( "\t| Press [1] Preemptive Priority Scheduling                          |" );
 			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [2] Preemptive Shortest Job Scheduling                      |" );
+			puts( "\t| Press [2] Round Robin Scheduling                                  |" );
 			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [3] Round Robin Scheduling                                  |" );
+			puts( "\t| Press [3] Shortest Remaining Time Scheduling                      |" );
 			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [4] Shortest Remaining Time Scheduling                      |" );
-			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [5] Rate Monotonic Scheduling 		                    |" );
-			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [6] Go Back To Main Page 		                    |" );
+			puts( "\t| Press [4] Go Back To Main Page 		                    |" );
 			puts("\t|-------------------------------------------------------------------|");
 			cout<<"\n\t Enter here ---> ";
 			
@@ -291,33 +228,25 @@ void PreemptiveCPUScheduling(){														//Preemptive CPU Scheduling Menu-Dr
 					break;
 				}
 				case 2:{
-				 	preemptiveShortestJobScheduling();
+				 	roundRobinScheduling();
 					//cout<<"Preemptive Shortest Job Scheduling";
 				    break;
 				}
 				case 3:{
-				    roundRobinScheduling();
+				    shortestRemainingTimeScheduling();
 					//cout<<"Round Robin Scheduling";
 				    break;
 				}
 	            case 4:{
-	            	shortestRemainingTimeScheduling();
+	            	cout<<"Exit";	
 					//cout<<"Shortest Remaining Time Scheduling";
 	            	break;
-				}
-				case 5:{
-	            	cout<<"Rate Monotonic Scheduling";
-	            	break;
-				}
-				case 6:{
-					cout<<"Exit";
-					break;
 				}
 				default:{
 					cout<<"Choose from the given options!";
 				}
 			}
-		} while( choice != 6 ); 	
+		} while( choice != 4 ); 	
 	}
 }
 
@@ -404,65 +333,6 @@ void preemptivePrioritySchedulingReal(){											//Real-Life Scenario Function
 
 }
 
-void preemptiveShortestJobSchedulingReal(){											//Real-Life Scenario Function of Preemptive Shortest Job Scheduling
-
-	cout<<"\t\t\t _________________________________________________________\n";
-	cout<<"\t\t\t|                                                         |\n";
-	cout<<"\t\t\t| PREEMPTIVE SHORTEST JOB SCHEDULNG - REAL LIFE SCENARIO  |\n";
-	cout<<"\t\t\t|_________________________________________________________|\n\n";
-	cout<<"\t ___________________________________________________________________________________________________\n";
-	cout<<"\t|                                                                                                   |\n";
-	cout<<"\t| In a supermarket, we have two types of queues. One of them is the normal queue, while the other   |\n";
-	cout<<"\t| is an express queue. The express queue acts as the shortest job first algorithm. When customers   |\n";
-	cout<<"\t| come to check out, the customer with the least amount of products is asked to come in the         |\n";
-	cout<<"\t| express queue because it is the shortest job.                                                     |\n";
-	cout<<"\t|___________________________________________________________________________________________________|\n\n";
-	
-	int arrivalTime[10], burstTime[10], temp[10];
-	int i, smallest, count = 0, time, limit;
-	double waitTime = 0, turnaroundTime = 0, end;
-	float averageWaitingTime, averageTurnaroundTime;
-	
-	cout<<"\nEnter the Total Number of Customers: ";
-	cin>>limit;
-	
-	//printf("\nEnter numbers of queues\n", limit);
-	for(i = 0; i < limit; i++){
-		
-	    cout<<"\nEnter Arrival Time: ";
-	    cin>>arrivalTime[i];
-	    cout<<"Enter service time of customers : ";
-	    cin>>burstTime[i]; 
-	    temp[i] = burstTime[i];
-	}
-	
-	burstTime[9] = 9999;
-	
-	for(time = 0; count != limit; time++){
-	    smallest = 9;
-	    for(i = 0; i < limit; i++){
-	        if(arrivalTime[i] <= time && burstTime[i] < burstTime[smallest] && burstTime[i] > 0){
-	            smallest = i;
-	        }
-	    }
-	    burstTime[smallest]--;
-	    if(burstTime[smallest] == 0){
-			count++;
-			end = time + 1;
-			waitTime = waitTime + end - arrivalTime[smallest] - temp[smallest];
-			turnaroundTime = turnaroundTime + end - arrivalTime[smallest];
-	    }
-	}
-	
-	averageWaitingTime = waitTime / limit; 
-	averageTurnaroundTime = turnaroundTime / limit;
-	
-	cout<<"\n\nAverage Waiting Time of customers: "<<averageWaitingTime<<"\n";
-	cout<<"Average service Time of customers: "<<averageTurnaroundTime<<"\n";
-	cout<<"x----------------------------x-------------------------------x------------------------------x------------------------x";
-	
-}
-
 void roundRobinSchedulingReal(){													//Real-Life Scenario Function of Round Robin Scheduling
 	
 	cout<<"\t\t\t ____________________________________________\n";
@@ -545,7 +415,7 @@ void shortestRemainingTimeSchedulingReal(){											//Real-Life Scenario Funct
 	
 	cout<<"\t\t\t ________________________________________________________\n";
 	cout<<"\t\t\t|                                                        |\n";
-	cout<<"\t\t\t| SHORTEST REMAINinG TIME SCHEDULNG - REAL LIFE SCENARIO |\n";
+	cout<<"\t\t\t| SHORTEST REMAINING TIME SCHEDULNG - REAL LIFE SCENARIO |\n";
 	cout<<"\t\t\t|________________________________________________________|\n\n";
 	cout<<"\t ___________________________________________________________________________________________________\n";
 	cout<<"\t|                                                                                                   |\n";
@@ -613,9 +483,6 @@ void shortestRemainingTimeSchedulingReal(){											//Real-Life Scenario Funct
 	
 }
 
-/*void rateMonotonicSchedulingReal(){
-
-}*/
 void preemptiveCPUScheduling_RealLifeScenarios(){									//Preemptive CPU Scheduling (Real-Life Scenarios) Menu Driven Function
 	
 	HANDLE hConsole;
@@ -629,15 +496,11 @@ void preemptiveCPUScheduling_RealLifeScenarios(){									//Preemptive CPU Sched
 			puts("\t|-------------------------------------------------------------------|");
 			puts( "\t| Press [1] Preemptive Priority Scheduling                          |" );
 			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [2] Preemptive Shortest Job Scheduling                      |" );
+			puts( "\t| Press [2] Round Robin Scheduling                                  |" );
 			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [3] Round Robin Scheduling                                  |" );
+			puts( "\t| Press [3] Shortest Remaining Time Scheduling                      |" );
 			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [4] Shortest Remaining Time Scheduling                      |" );
-			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [5] Rate Monotonic Scheduling 		                    |" );
-			puts("\t|-------------------------------------------------------------------|");
-			puts( "\t| Press [6] Go Back To Main Page 		                    |" );
+			puts( "\t| Press [4] Go Back To Main Page 		                    |" );
 			puts("\t|-------------------------------------------------------------------|");
 			cout<<"\n\t Enter here ---> ";
 			
@@ -652,35 +515,397 @@ void preemptiveCPUScheduling_RealLifeScenarios(){									//Preemptive CPU Sched
 					break;
 				}
 				case 2:{
-				 	preemptiveShortestJobSchedulingReal();
+				 	roundRobinSchedulingReal();
 					//cout<<"Preemptive Shortest Job Scheduling";
 				    break;
 				}
 				case 3:{
-				    roundRobinSchedulingReal();
+				    shortestRemainingTimeSchedulingReal();
 					//cout<<"Round Robin Scheduling";
 				    break;
 				}
 	            case 4:{
-	            	shortestRemainingTimeSchedulingReal();
+	            	cout<<"Exit";
 					//cout<<"Shortest Remaining Time Scheduling";
 	            	break;
-				}
-				case 5:{
-	            	cout<<"Rate Monotonic Scheduling";
-	            	break;
-				}
-				case 6:{
-					cout<<"Exit";
-					break;
 				}
 				default:{
 					cout<<"Choose from the given options!";
 				}
 			}
-		} while( choice != 6 ); 	
+		} while( choice != 4 ); 	
 	}      
 }
+
+void preemptivePrioritySchedulingGanttChart(){
+	
+	int pid,p,at,bt,ct,tt,wt;	
+	
+	cout << '|' << setw(10) << "PID" << '|' << setw(10) << " PRIORITY " << '|' << setw(10) << " ARRIVAL TIME " << '|' << setw(10) << " BURST TIME " << '|' << setw(10) << " COMPLETION TIME " << '|' << setw(10) << " TURN-AROUND TIME " << '|' << setw(10) << " WAITING TIME " << '|' << endl;	
+	
+	pid=1;
+	p=2;
+	at=0;
+	bt=4;
+	ct=25;
+	tt=25;
+	wt=21;
+	
+	cout << '|' << setw(10) << pid << '|' << setw(10) << p << '|' << setw(10) << at << '|' << setw(10) << bt << '|' << setw(10) << ct << '|' << setw(19) <<  tt << '|' << setw(19) << wt << '|' << endl;
+	
+	pid=2;
+	p=4;
+	at=1;
+	bt=2;
+	ct=22;
+	tt=21;
+	wt=19;
+	
+	cout << '|' << setw(10) << pid << '|' << setw(10) << p << '|' << setw(10) << at << '|' << setw(10) << bt << '|' << setw(10) << ct << '|' << setw(19) << tt << '|' << setw(19) << wt << '|' << endl;
+	
+	pid=3;
+	p=6;
+	at=2;
+	bt=3;
+	ct=21;
+	tt=19;
+	wt=16;
+	
+	cout << '|' << setw(10) << pid << '|' << setw(10) << p << '|' << setw(10) << at << '|' << setw(10) << bt << '|' << setw(10) << ct << '|' << setw(19) << tt << '|' << setw(19) << wt << '|' << endl;
+	
+	pid=4;
+	p=10;
+	at=3;
+	bt=5;
+	ct=12;
+	tt=9;
+	wt=4;
+	
+	cout << '|' << setw(10) << pid << '|' << setw(10) << p << '|' << setw(10) << at << '|' << setw(10) << bt << '|' << setw(10) << ct << '|' << setw(19) << tt << '|' << setw(19) << wt << '|' << endl;
+	
+	pid=5;
+	p=8;
+	at=4;
+	bt=1;
+	ct=19;
+	tt=15;
+	wt=14;
+	
+	cout << '|' << setw(10) << pid << '|' << setw(10) << p << '|' << setw(10) << at << '|' << setw(10) << bt << '|' << setw(10) << ct << '|' << setw(19) << tt << '|' << setw(19) << wt << '|' << endl;
+	
+	pid=6;
+	p=12;
+	at=5;
+	bt=4;
+	ct=9;
+	tt=4;
+	wt=0;
+	
+	cout << '|' << setw(10) << pid << '|' << setw(10) << p << '|' << setw(10) << at << '|' << setw(10) << bt << '|' << setw(10) << ct << '|' << setw(19) << tt << '|' << setw(19) << wt << '|' << endl;
+	
+	pid=7;
+	p=9;
+	at=6;
+	bt=6;
+	ct=18;
+	tt=12;
+	wt=6;
+	
+	cout << '|' << setw(10) << pid << '|' << setw(10) << p << '|' << setw(10) << at << '|' << setw(10) << bt << '|' << setw(10) << ct << '|' << setw(19) << tt << '|' << setw(19) << wt << '|' << endl;
+	
+	cout<<endl<<endl<< " GANTT CHART " <<endl<<endl;
+	cout << "---------------------------------------------------------------------------------------------------------------------------------------------------------" <<endl;
+	cout << "|         |          |           |            |            |              |             |               |               |               |               |" <<endl;
+	cout << "|   P1    |     P2   |     P3    |     P4     |      P6    |      P4      |      P7     |        P5     |         P3    |        P2     |        P1     |" <<endl;
+	cout << "|         |          |           |            |            |              |             |               |               |               |               |" <<endl;
+	cout << "0---------1--------- 2---------- 3----------- 5----------- 9------------ 12------------18------------- 19------------- 21------------  22--------------25" <<endl;
+
+}
+
+void roundRobinSchedulingGanttChart(){
+
+	int pid,at,bt;	
+	
+	cout << '|' << setw(10) << "PID" << '|' << setw(10) << " ARRIVAL TIME " << '|' << setw(10) << " BURST TIME " << '|' <<endl;	
+	
+	pid=1;
+	at=0;
+	bt=4;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;	
+	
+	pid=2;
+	at=1;
+	bt=5;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;
+	
+	pid=3;
+	at=2;
+	bt=2;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;
+	
+	pid=4;
+	at=3;
+	bt=1;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;
+	
+	pid=5;
+	at=4;
+	bt=6;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;
+	
+	pid=6;
+	at=6;
+	bt=3;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;
+	
+	cout<<endl<<endl<< " GANTT CHART " <<endl<<endl;
+	cout << "-------------------------------------------------------------------------------------------------------------------------------------------------------------"  <<endl;
+	cout << "|         |          |           |            |            |              |             |               |               |            |           |          |" <<endl;
+	cout << "|   P1    |     P2   |     P3    |     P1     |      P4    |      P5      |      P2     |        P6     |       P5      |     P2     |     P6    |    P5    |" <<endl;
+	cout << "|         |          |           |            |            |              |             |               |               |            |           |          |" <<endl;
+	cout << "0---------2--------- 4---------- 6----------- 8----------- 9------------  11------------13------------- 15------------- 17----------18-----------19--------21" <<endl;
+}
+
+void shortestRemainingTimeGanttChart(){
+	
+	int pid,at,bt;	
+	
+	cout << '|' << setw(10) << "PID" << '|' << setw(10) << " ARRIVAL TIME " << '|' << setw(10) << " BURST TIME " << '|' <<endl;	
+	
+	pid=1;
+	at=0;
+	bt=10;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;	
+	
+	pid=2;
+	at=1;
+	bt=5;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;
+	
+	pid=3;
+	at=2;
+	bt=2;
+	
+	cout << '|' << setw(10) << pid <<   '|' << setw(10) << at << '|' << setw(10) << bt << '|' <<endl;
+	
+	cout<<endl<<endl<< " GANTT CHART " <<endl<<endl;
+	cout << "------------------------------------------------------------" <<endl;
+	cout << "|         |          |           |            |            |" <<endl;
+	cout << "|   P1    |     P2   |     P3    |     P2     |      P1    |" <<endl;
+	cout << "|         |          |           |            |            |" <<endl;
+	cout << "0---------1--------- 2---------- 4----------- 8----------- 17" <<endl;
+}	
+
+void ganttChartImplementationOfAlgorithms(){
+	
+	HANDLE hConsole;
+ 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+ 	{
+ 		int choice;
+ 		SetConsoleTextAttribute(hConsole, 14);
+		do{
+			//puts( "\nPress " );
+			printf("\n\n");
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [1] Preemptive Priority Scheduling                          |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [2] Round Robin Scheduling                                  |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [3] Shortest Remaining Time Scheduling                      |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [4] Go Back To Main Page 		                    |" );
+			puts("\t|-------------------------------------------------------------------|");
+			cout<<"\n\t Enter here ---> ";
+			
+			cin>>choice;
+			switch (choice){ 
+				case 1: {
+					preemptivePrioritySchedulingGanttChart();
+				//	Preemptive_Priority_Scheduling_Gantt(); 
+					break;
+				}
+				case 2:{
+					roundRobinSchedulingGanttChart();
+				//	Preemptive_Shortest_Job_Scheduling_Gantt(); 
+					break;
+				}      
+				case 3: {
+					shortestRemainingTimeGanttChart();
+				//	Round_Robin_Scheduling_Gantt();
+					break;
+				}
+				case 4: {
+					break;
+				}      
+				default:{
+					cout<<"\nNot within the given parameters";
+					break;
+				} 
+			} 
+		}while( choice != 4 );	
+	}
+}
+
+void cpuUtilization(){
+	string PS,RR,SRT;
+	
+	PS="MEDIUM";
+	RR="HIGH";
+	SRT="HIGH";
+		
+	cout<<"\t\t\t ____________________________________________\n";
+	cout<<"\t\t\t|                                            |\n";
+	cout<<"\t\t\t|              CPU UTILIZATION               |\n";
+	cout<<"\t\t\t|____________________________________________|\n\n";	
+	
+
+	cout<<"\t\t\t\tPRIORITY SCHEDULNG => "<<PS<<"\n\n";
+	cout<<"\t\t\t       ROUND ROBIN SCHEDULING => "<<RR<<"\n\n";
+	cout<<"\t\t\t   SHORTEST REMAINING TIME SCHEDULING => "<<SRT<<"\n\n";
+}
+
+void policyEnforcement(){
+
+	cout<<"\t\t\t ____________________________________________\n";
+	cout<<"\t\t\t|                                            |\n";
+	cout<<"\t\t\t|             POLICY ENFORCEMENT             |\n";
+	cout<<"\t\t\t|____________________________________________|\n\n";	
+	
+	string PS,RR,SRT;		
+	PS="CPU executes process with highest priority";
+	RR="like FCFS, but with limited time slices";
+	SRT="The process with the smallest amount of time remaining until completion is selected to execute";
+	
+	cout<<"\t\t\t\t     PRIORITY SCHEDULING"<<"\n";
+	cout<<"\t\t\t\t     -------------------\n\n";
+	cout<<"\t\t\t  * "<<PS<<"\n\n";
+	cout<<"\t\t\t\t    ROUND ROBIN SCHEDULING"<<"\n";
+	cout<<"\t\t\t\t    ----------------------\n\n";
+	cout<<"\t\t\t  * "<<RR<<"\n\n";
+	cout<<"\t\t\t\t    SHORTEST REMAINING TIME"<<"\n";
+	cout<<"\t\t\t\t    ----------------------\n\n";
+	cout<<"       * "<<SRT;
+}
+
+void efficiency(){
+	cout<<"\t\t\t ____________________________________________\n";
+	cout<<"\t\t\t|                                            |\n";
+	cout<<"\t\t\t|                 EFFICIENCY                 |\n";
+	cout<<"\t\t\t|____________________________________________|\n\n";	
+	
+	string PS="HIGH";
+	string RR="MEDIUM";
+	string SRT="HIGH";
+
+	cout<<"\t\t\t\t  PRIORITY SCHEDULNG => "<<PS<<"\n\n";
+	cout<<"\t\t\t       ROUND ROBIN SCHEDULING => "<<RR<<"\n\n";
+	cout<<"\t\t\t   SHORTEST REMAINING TIME SCHEDULING => "<<SRT<<"\n\n";
+}
+
+void responseTime(){
+	
+	cout<<"\t\t\t ____________________________________________\n";
+	cout<<"\t\t\t|                                            |\n";
+	cout<<"\t\t\t|                RESPONSE TIME               |\n";
+	cout<<"\t\t\t|____________________________________________|\n\n";	
+	
+	string PS="HIGH";
+	string RR="HIGH";
+	string SRT="LOW";
+
+	cout<<"\t\t\t\t  PRIORITY SCHEDULNG => "<<PS<<"\n\n";
+	cout<<"\t\t\t       ROUND ROBIN SCHEDULING => "<<RR<<"\n\n";
+	cout<<"\t\t\t   SHORTEST REMAINING TIME SCHEDULING => "<<SRT<<"\n\n";
+}
+
+void throughput(){
+	
+	cout<<"\t\t\t ____________________________________________\n";
+	cout<<"\t\t\t|                                            |\n";
+	cout<<"\t\t\t|                 THROUGHPUT                 |\n";
+	cout<<"\t\t\t|____________________________________________|\n\n";	
+	
+	string PS="LOW";
+	string RR="MEDIUM";
+	string SRT="LOW";
+
+	cout<<"\t\t\t\t  PRIORITY SCHEDULNG => "<<PS<<"\n\n";
+	cout<<"\t\t\t       ROUND ROBIN SCHEDULING => "<<RR<<"\n\n";
+	cout<<"\t\t\t   SHORTEST REMAINING TIME SCHEDULING => "<<SRT<<"\n\n";
+}			
+
+void analysisOfAlgorithms(){
+	
+	HANDLE hConsole;
+ 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+ 	{
+ 		int choice;
+ 		SetConsoleTextAttribute(hConsole, 14);
+		do{
+			//puts( "\nPress " );
+			printf("\n\n");
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [1] CPU Utilization of Preemptive Scheduling                |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [2] Policy Enforcement of Preemptive Scheduling             |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [3] Efficiency of Preemptive Scheduling                     |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [4] Response Time of Preemptive Scheduling                  |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [5] Throughput of Preemptive Scheduling 		    |" );
+			puts("\t|-------------------------------------------------------------------|");
+			puts( "\t| Press [6] Go Back To Main Page 		                    |" );
+			puts("\t|-------------------------------------------------------------------|");
+			cout<<"\n\t Enter here ---> ";
+			
+			cin>>choice;
+			switch (choice){ 
+				case 1: {
+					cpuUtilization();
+					//CPU Utilization 
+					break;
+				}
+				case 2:{
+					policyEnforcement();
+					//Policy Enforcement 
+					break;
+				}      
+				case 3: {
+					efficiency();
+					//Efficiency
+					break;
+				}
+				case 4: {
+					responseTime();
+					//Response Time
+					break;
+				}     
+				case 5: {
+					throughput();
+					//Throughput
+					break;
+				}
+				case 6: {
+					break;
+				} 
+				default:{
+					cout<<"\nNot within the given parameters";
+					break;
+				} 
+			} 
+		}while( choice != 6 );	
+	}
+}
+
 int main(){																			//main Function
 	
 	HANDLE hConsole;
@@ -688,6 +913,10 @@ int main(){																			//main Function
 	{	
 		SetConsoleTextAttribute(hConsole, 11);
 		
+		cout<<"\t\t\t ____________________________________________\n";
+		cout<<"\t\t\t|                                            |\n";
+		cout<<"\t\t\t|          PREEMPTIVE CPU SCHEDULING         |\n";
+		cout<<"\t\t\t|____________________________________________|\n\n";	
 		cout<<"\n\n\tPROJECT MADE BY : \n\t--------------------------\n\t|AFFAN GHAZALI| |18K-0171|\n\t|MUBBASHIR ALI| |18K-0233|\n\t--------------------------";
 		cout<<"\n\n";
 		system("PAUSE");
@@ -726,15 +955,17 @@ int main(){																			//main Function
 				    break;
 				}
 				case 3:{
-				    cout<<"Gantt Chart Implementation of Algorithms";
+				    ganttChartImplementationOfAlgorithms();
+					//cout<<"Gantt Chart Implementation of Algorithms";
 				    break;
 				}
 	            case 4:{
-	            	cout<<"Analysis of Preemptive CPU Scheduling";
+	            	analysisOfAlgorithms();
+					//cout<<"Analysis of Preemptive CPU Scheduling";
 	            	break;
 				}
 				case 5:{
-					cout<<"Exit";
+					cout<<"End of Project!";
 					break;
 				}
 				default:{
